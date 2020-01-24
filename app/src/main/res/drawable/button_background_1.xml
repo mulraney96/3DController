@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    android:id="@+id/angry_btn"
+
+    android:text="Button"
+    android:textColor="#FFFFFF"
+    android:textSize="30sp"
+
+    android:layout_width="130dp"
+    android:layout_height="95dp"
+    android:background="@drawable/buttonshape"
+    android:shadowColor="#A8A8A8"
+    android:shadowDx="0"
+    android:shadowDy="0"
+    android:shadowRadius="5"
+</selector>

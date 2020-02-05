@@ -41,7 +41,7 @@ class OffsetActivity : AppCompatActivity(), SensorEventListener {
         zAccelerationValues.clear()
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        var rotationVectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
+        var rotationVectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR)
         val linearAccSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
     }
 
@@ -49,7 +49,7 @@ class OffsetActivity : AppCompatActivity(), SensorEventListener {
         super.onResume()
         sensorManager.registerListener(
             this,
-            sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR),
+            sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR),
             SensorManager.SENSOR_DELAY_NORMAL
         )
         sensorManager.registerListener(
@@ -75,7 +75,7 @@ class OffsetActivity : AppCompatActivity(), SensorEventListener {
             orientation_text.text = "    Offset Calculated"
         }
 
-        if(event.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
+        if(event.sensor.getType() == Sensor.TYPE_GAME_ROTATION_VECTOR) {
             SensorManager.getRotationMatrixFromVector(rotationMatrix, event!!.values)
             SensorManager.getOrientation(rotationMatrix, orientation)
 

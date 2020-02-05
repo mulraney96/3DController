@@ -38,7 +38,7 @@ class ControllerActivity : AppCompatActivity(), SensorEventListener {
             setContentView(R.layout.activity_controller)
 
             sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-            val vectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
+            val vectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR)
             val linearAccSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
         }
 
@@ -46,7 +46,7 @@ class ControllerActivity : AppCompatActivity(), SensorEventListener {
             super.onResume()
             sensorManager.registerListener (
                 this,
-                sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR),
+                sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR),
                 SensorManager.SENSOR_DELAY_NORMAL
             )
             sensorManager.registerListener(
@@ -70,15 +70,14 @@ class ControllerActivity : AppCompatActivity(), SensorEventListener {
                 floatArrayOf(0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f)
             var orientation: FloatArray = floatArrayOf(0.0f,0.0f,0.0f)
 
-            if(event.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
+            if(event.sensor.getType() == Sensor.TYPE_GAME_ROTATION_VECTOR) {
                 SensorManager.getRotationMatrixFromVector(rotationMatrix, event!!.values)
                 SensorManager.getOrientation(rotationMatrix, orientation)
 
-                var azimuth = (orientation[0] - OffsetValues.getAzimuthOffset()) * -1
-                var pitch = (orientation[1] - OffsetValues.getPitchOffset()) * -1
-                var roll = (orientation[2] - OffsetValues.getRollOffset())
-                url =
-                    "https://www.eeng.dcu.ie/~sadleirr/sensorlog/sensorlog.php?pitch=${pitch}&roll=${roll}&yaw=${azimuth}"
+                var azimuth = (orientation[0]  * -1)
+                var pitch = (orientation[1] * -1)
+                var roll = (orientation[2] )
+                url = "https://www.eeng.dcu.ie/~sadleirr/sensorlog/sensorlog.php?pitch=${pitch}&roll=${roll}&yaw=${azimuth}"
                 makeHttpRequest(url)
 
             }

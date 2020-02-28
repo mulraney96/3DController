@@ -29,7 +29,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/circle_button_shape"
         android:text="\nDevice should be calibrated before use"
         android:textAppearance="@style/TextAppearance.AppCompat.Display3"
         android:textSize="18sp"

@@ -41,8 +41,6 @@ class OffsetActivity : AppCompatActivity(), SensorEventListener {
         zAccelerationValues.clear()
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        var rotationVectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR)
-        val linearAccSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
     }
 
     override fun onResume() {
@@ -87,14 +85,14 @@ class OffsetActivity : AppCompatActivity(), SensorEventListener {
                 orientation_text.text = "    Calibrating Offset"
             } else {
                 orientationOffset = true
-                OffsetValues.setOrientationOffsetValues(
+                DeviceValues.setOrientationOffsetValues(
                     calculateOffset(azimuthValues), calculateOffset(pitchValues),
                     calculateOffset(rollValues)
                 )
                 Log.i(
                     "Orientation offset",
-                    "${OffsetValues.getAzimuthOffset()}, ${OffsetValues.getPitchOffset()}," +
-                            " ${OffsetValues.getRollOffset()}"
+                    "${DeviceValues.getAzimuthOffset()}, ${DeviceValues.getPitchOffset()}," +
+                            " ${DeviceValues.getRollOffset()}"
                 )
             }
         }
@@ -107,9 +105,9 @@ class OffsetActivity : AppCompatActivity(), SensorEventListener {
             }
             else{
                 accelerationOffset = true
-                OffsetValues.setPositionalOffsetValues(calculateOffset(xAccelerationValues),calculateOffset(yAccelerationValues),
+                DeviceValues.setPositionalOffsetValues(calculateOffset(xAccelerationValues),calculateOffset(yAccelerationValues),
                     calculateOffset(zAccelerationValues))
-                Log.i("Acceleration offset", "${OffsetValues.getXOffset()}, ${OffsetValues.getYOffset()}, ${OffsetValues.getZOffset()}")
+                Log.i("Acceleration offset", "${DeviceValues.getXOffset()}, ${DeviceValues.getYOffset()}, ${DeviceValues.getZOffset()}")
             }
         }
 

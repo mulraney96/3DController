@@ -12,7 +12,9 @@ class MainActivity : AppCompatActivity(){
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        DeviceValues.setOrientation(0.0f,0.0f,0.0f)
+        DeviceValues.setPosition(0.0f,0.0f,0.0f)
+        VolleyRequest.makeHttpRequest(this)
     }
 
     fun startCalibration(view: View){
@@ -25,4 +27,4 @@ class MainActivity : AppCompatActivity(){
         startActivity(intent)
     }
 
-    }
+}

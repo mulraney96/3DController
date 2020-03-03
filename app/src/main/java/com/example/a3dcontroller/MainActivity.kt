@@ -22,6 +22,11 @@ class MainActivity : AppCompatActivity(){
         startActivity(intent)
     }
 
+    fun startRoute(view:View){
+        val intent = Intent(this, RouteControllerActivity::class.java)
+        startActivity(intent)
+    }
+
     fun startController(view: View){
         val intent = Intent(this, ControllerActivity::class.java)
         startActivity(intent)

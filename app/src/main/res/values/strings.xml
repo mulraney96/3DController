@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">3DController</string>
+    <string name="title_activity_route">RouteActivity</string>
+    <string name="title_activity_route_controller">RouteController</string>
 </resources>

@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import kotlinx.android.synthetic.main.activity_route_controller.*
 
 class RouteControllerActivity : AppCompatActivity(), SensorEventListener {
@@ -19,13 +20,18 @@ class RouteControllerActivity : AppCompatActivity(), SensorEventListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_route_controller)
-        val a = Coordinates(-1.0f,0.0f)
-        val b = Coordinates(1.0f, 0.0f)
-        val list = arrayListOf(a,b)
+        val a = Coordinates(-3.0f,-3.0f)
+        val b = Coordinates(-2.0f, -2.0f)
+        val c = Coordinates(0.0f, 0.0f)
+        val d = Coordinates(1.0f, 0.5f)
+        val e = Coordinates(2.0f, -0.5f)
+
+
+        val list = arrayListOf(a,b,c,d,e)
         val route = Route(list)
         routePosition = RoutePosition(route)
+        routePosition.setContext(this)
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        currentPos_text.text = "Current Position = (${routePosition.getCurrentPosition().xValue}, ${routePosition.getCurrentPosition().yValue}"
 
     }
 
@@ -57,13 +63,9 @@ class RouteControllerActivity : AppCompatActivity(), SensorEventListener {
 
             if(orientation[1]<0){
                 routePosition.updatePosition(-1)
-                currentPos_text.text = "Current Position = (${routePosition.getCurrentPosition().xValue}, ${routePosition.getCurrentPosition().yValue}"
-
             }
             else {
                 routePosition.updatePosition(1)
-                currentPos_text.text = "Current Position = (${routePosition.getCurrentPosition().xValue}, ${routePosition.getCurrentPosition().yValue}"
-
             }
         }
     }

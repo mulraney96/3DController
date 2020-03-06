@@ -56,8 +56,7 @@ class ControllerActivity : AppCompatActivity(), SensorEventListener {
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        Log.d(sensor.toString() + " changed accuracy to: ",
-            Integer.toString(accuracy)
+        Log.d("$sensor", " changed accuracy to: $accuracy"
         )
     }
 
@@ -68,7 +67,7 @@ class ControllerActivity : AppCompatActivity(), SensorEventListener {
         var orientation: FloatArray = floatArrayOf(0.0f, 0.0f, 0.0f)
 
         if (event.sensor.getType() == Sensor.TYPE_GAME_ROTATION_VECTOR) {
-            SensorManager.getRotationMatrixFromVector(rotationMatrix, event!!.values)
+            SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values)
             SensorManager.getOrientation(rotationMatrix, orientation)
 
             if(controlOrientation){
@@ -77,14 +76,20 @@ class ControllerActivity : AppCompatActivity(), SensorEventListener {
                 if(abs(oldPitch-orientation[1])>0.09 || abs(oldRoll-orientation[2])>0.09 || abs(oldYaw-orientation[0])>0.09 ){
                     Log.i("pitch difference", "${abs(oldPitch-orientation[1])}")
                     DeviceValues.setOrientation(orientation[1], orientation[2], orientation[0])
-                    VolleyRequest.makeHttpRequest(this.applicationContext)
+                    var url = "http://ec2-52-211-114-128.eu-west-1.compute.amazonaws.com/sensorLog.php?pitch=${DeviceValues.getPitch()}" +
+                            "&roll=${DeviceValues.getRoll()}&yaw=${DeviceValues.getYaw()}&" +
+                            "X=${DeviceValues.getX()}&Y=${DeviceValues.getY()}&Z=${DeviceValues.getZ()}"
+                    VolleyRequest.makeHttpRequest(this.applicationContext, url)
                 }
             }
             else{
                 controlText.text = "Now Controlling Position";
                 if(abs(oldX-orientation[2])>0.1 || abs(oldY-orientation[1])>0.1) {
                     DeviceValues.setPosition(orientation[2] * 1.1f, orientation[1] * 1.1f, 0.0f)
-                    VolleyRequest.makeHttpRequest(this.applicationContext)
+                    var url = "http://ec2-52-211-114-128.eu-west-1.compute.amazonaws.com/sensorLog.php?pitch=${DeviceValues.getPitch()}" +
+                            "&roll=${DeviceValues.getRoll()}&yaw=${DeviceValues.getYaw()}&" +
+                            "X=${DeviceValues.getX()}&Y=${DeviceValues.getY()}&Z=${DeviceValues.getZ()}"
+                    VolleyRequest.makeHttpRequest(this.applicationContext, url)
                 }
             }
         }

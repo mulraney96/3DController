@@ -12,10 +12,8 @@ import org.json.JSONException
 object VolleyRequest {
 
 
-    fun makeHttpRequest(context: Context) {
-        var url = "http://ec2-34-246-187-96.eu-west-1.compute.amazonaws.com/sensorLog.php?pitch=${DeviceValues.getPitch()}" +
-                "&roll=${DeviceValues.getRoll()}&yaw=${DeviceValues.getYaw()}&" +
-                "X=${DeviceValues.getX()}&Y=${DeviceValues.getY()}&Z=${DeviceValues.getZ()}"
+    fun makeHttpRequest(context: Context, url: String) {
+
         val queue = Volley.newRequestQueue(context)
         val request = StringRequest(Request.Method.GET, url,
             Response.Listener<String> { response ->

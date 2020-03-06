@@ -1,5 +1,6 @@
 package com.example.a3dcontroller
 
+import android.util.Log
 import kotlin.math.abs
 import kotlin.math.sqrt
 
@@ -15,10 +16,11 @@ import kotlin.math.sqrt
         val temp = (b.yValue-a.yValue)
         val temp2 = (b.xValue-a.xValue)
         return temp/temp2
+        Log.d("slope", "${temp/temp2}")
     }
 
-    private fun getY(a: Coordinates, nextX: Float, m: Float):Float{
-        return (m*(nextX-a.xValue) - a.yValue)
+     fun getY(a: Coordinates, nextX: Float, m: Float):Float{
+        return ((m*(nextX-a.xValue)) + a.yValue)
     }
 
     fun getDeltaX(a: Coordinates, b: Coordinates): Float{
@@ -40,7 +42,7 @@ import kotlin.math.sqrt
         if(L==route[0] && direction == -1 && percent==0){
             return route[0]
         }
-        else {
+
             if (direction == 1) {
                 val nextPercent = percent + 1
                 nextXposition = L.xValue + (deltaX * nextPercent)
@@ -49,7 +51,7 @@ import kotlin.math.sqrt
                 val nextPercent = percent - 1
                 nextXposition = L.xValue + (deltaX * nextPercent)
                 nextYposition = getY(L, nextXposition, slope)
-            }
+
         }
 
         return Coordinates(nextXposition, nextYposition)
@@ -70,25 +72,33 @@ data class Route(var route: ArrayList<Coordinates>){
 
     // overwriting the index operator.
     operator fun get(index: Int):Coordinates{
-        return this[index]
+        return route.get(index)
     }
 }
 
 
 
-/*un main(){
-    val a = Coordinates(0.0f, 1.0f)
+fun main() {
+    val a = Coordinates(-1.0f, 2.0f)
     val b = Coordinates(1.0f, -2.0f)
-    val c = Coordinates(2.0f, 3.0f)
-    val d = Coordinates(4.0f, -1.0f)
 
     val list: ArrayList<Coordinates>? = arrayListOf()
     list!!.add(a)
     list.add(b)
-    list.add(c)
-    list.add(d)
 
     val route = Route(list)
+    var currentPosition = route[0]
+    var temp = RoutePosition(route)
+    var m = temp.getSlope(a, b)
+    println(m)
+    var deltaX = temp.getDeltaX(a, b)
+    println(deltaX)
+    var percent = 1
+    var nextX = currentPosition.xValue + (deltaX * percent)
+    var nextY = temp.getY(currentPosition, nextX, m)
+    println("X = $nextX, Y = $nextY")
 
 
-}*/
+
+
+}

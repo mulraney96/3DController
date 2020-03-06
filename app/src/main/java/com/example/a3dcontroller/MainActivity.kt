@@ -14,7 +14,10 @@ class MainActivity : AppCompatActivity(){
         setContentView(R.layout.activity_main)
         DeviceValues.setOrientation(0.0f,0.0f,0.0f)
         DeviceValues.setPosition(0.0f,0.0f,0.0f)
-        VolleyRequest.makeHttpRequest(this)
+        var url = "http://ec2-52-211-114-128.eu-west-1.compute.amazonaws.com/sensorLog.php?pitch=0" +
+                "&roll=0&yaw=0&" +
+                "X=0&Y=0&Z=0"
+        VolleyRequest.makeHttpRequest(this, url )
     }
 
     fun startCalibration(view: View){

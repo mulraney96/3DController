@@ -15,53 +15,74 @@ import kotlin.math.sqrt
     fun getSlope(x1: Float, y1: Float, x2: Float, y2: Float):Float{
         val temp = (y2-y1)
         val temp2 = (x2-x1)
-        return temp/temp2
-        Log.d("slope", "${temp/temp2}")
+        if(temp2==0f)
+            return 0f
+        else
+            return temp/temp2
     }
 
      fun getY(a: Coordinates, nextX: Float, m: Float):Float{
-        return ((m*(nextX-a.xValue)) + a.yValue)
+        val temp = (m*(nextX-a.xValue)) + a.yValue
+         if(temp==0f)
+             return 0.0f
+         else
+             return temp
+
     }
 
     fun getDelta(a: Float, b: Float): Float{
         val temp = b - a
-        return abs(temp/100)
+        return temp/100
     }
 
-    fun getPosition(route: Route, current: Int, percent: Int, deltaX: Float, deltaZ: Float, slopeXY: Float, direction: Int ):Coordinates{
+    fun getPosition(route: Route, current: Int, percent: Int, deltaX: Float, deltaZ: Float, deltaAngleX: Float, deltaAngleY: Float, deltaAngleZ: Float, slopeXY: Float, direction: Int ):Coordinates{
         val L = route[current]
         var nextXposition: Float
         var nextYposition: Float
         var nextZposition: Float
+        var nextZetaX: Float
+        var nextZetaY: Float
+        var nextZetaZ: Float
 
-        if(L==route[route.size()-1] && direction==1){
+        if(L==route[route.size()-1] && direction==1 && percent==100){
             return L
+            Log.i("Location", "returned L")
         }
         if(L==route[0] && direction == -1 && percent==0){
             return route[0]
+            Log.i("Location", "Returned bottom node")
         }
 
-            if (direction == 1) {
+        else if (direction != -1) {
                 val nextPercent = percent + 1
+                Log.i("Location", "Moving Up")
                 nextXposition = L.xValue + (deltaX * nextPercent)
                 nextYposition = getY(L, nextXposition, slopeXY)
-                nextZposition = L.zValue +(deltaZ * nextPercent)
+                nextZposition = L.zValue + (deltaZ * nextPercent)
+                nextZetaX = L.zetaX + (deltaAngleX*nextPercent)
+                nextZetaY = L.zetaY + (deltaAngleY*nextPercent)
+            Log.i("Y Angle", "$nextZetaY")
+                nextZetaZ = L.zetaZ + (deltaAngleZ*nextPercent)
+            Log.i("Z Angle", "$nextZetaZ")
+
             } else {
                 val nextPercent = percent - 1
                 nextXposition = L.xValue + (deltaX * nextPercent)
                 nextYposition = getY(L, nextXposition, slopeXY)
                 nextZposition = L.zValue +(deltaZ * nextPercent)
-
+                nextZetaX = L.zetaX + (deltaAngleX*nextPercent)
+                nextZetaY = L.zetaY + (deltaAngleY*nextPercent)
+                nextZetaZ = L.zetaZ + (deltaAngleZ*nextPercent)
 
             }
 
-        return Coordinates(nextXposition, nextYposition, nextZposition)
+        return Coordinates(nextXposition, nextYposition, nextZposition, nextZetaX, nextZetaY, nextZetaZ)
 
     }
 
 }
 
-data class Coordinates( var xValue: Float,var yValue: Float, var zValue: Float){
+data class Coordinates( var xValue: Float,var yValue: Float, var zValue: Float,var zetaX: Float, var zetaY: Float,var zetaZ: Float){
 
 
 }

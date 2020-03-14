@@ -19,11 +19,11 @@ class RouteControllerActivity : AppCompatActivity(), SensorEventListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_route_controller)
-        val a = Coordinates(-4.0f,-3.0f, 0.0f)
-        val b = Coordinates(-2.0f, 2.0f, 0.0f)
-        val c = Coordinates(0.0f, 5.0f, 0.0f)
-        val d = Coordinates(1.0f, 3.5f, 0.0f)
-        val e = Coordinates(2.0f, -0.5f, 0.0f)
+        val a = Coordinates(0.0f,0.0f, 0.0f, 0.523599f, 0.523599f, 0.523599f)
+        val b = Coordinates(0.0f, 0.0f, 2.0f, 0f, 0.523599f, 0.523599f)
+        val c = Coordinates(0.0f, 0.0f, 3.0f, 0f, 0f, 0.523599f)
+        val d = Coordinates(0.0f, 0.0f, 2.0f, 0f, 0f, 0f)
+        val e = Coordinates(0.0f, 0.0f, 0.0f, 0.523599f, 0.523599f, 0.523599f )
 
 
         val list = arrayListOf(a,b,c,d,e)
@@ -63,13 +63,15 @@ class RouteControllerActivity : AppCompatActivity(), SensorEventListener {
             if(orientation[1]<0){
                 currentPos_text.text = "Current Position:\nX = ${routePosition.getCurrentPosition().xValue}" +
                         "\nY=${routePosition.getCurrentPosition().yValue}" +
-                        "\nZ=${routePosition.getCurrentPosition().zValue}"
+                        "\nZ=${routePosition.getCurrentPosition().zValue}\nOx=${routePosition.getCurrentPosition().zetaX}"+
+                        "\nOy=${routePosition.getCurrentPosition().zetaY}\nOz=${routePosition.getCurrentPosition().zetaZ}"
                 routePosition.updatePosition(-1)
             }
             else {
                 currentPos_text.text = "Current Position:\nX = ${routePosition.getCurrentPosition().xValue}" +
                         "\nY=${routePosition.getCurrentPosition().yValue}" +
-                        "\nZ=${routePosition.getCurrentPosition().zValue}"
+                        "\nZ=${routePosition.getCurrentPosition().zValue}\nOx=${routePosition.getCurrentPosition().zetaX}"+
+                        "\nOy=${routePosition.getCurrentPosition().zetaY}\nOz=${routePosition.getCurrentPosition().zetaZ}"
                 routePosition.updatePosition(1)
             }
         }

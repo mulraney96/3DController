@@ -1,5 +1,6 @@
 package com.example.a3dcontroller
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.hardware.Sensor
@@ -33,6 +34,7 @@ class ControllerActivity : AppCompatActivity(), SensorEventListener {
 
     var timestamp: Long = 0
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) //locks in portrait mode
         super.onCreate(savedInstanceState)
@@ -49,6 +51,7 @@ class ControllerActivity : AppCompatActivity(), SensorEventListener {
             SensorManager.SENSOR_DELAY_NORMAL
         )
     }
+
 
     override fun onPause() {
         super.onPause()
@@ -79,17 +82,17 @@ class ControllerActivity : AppCompatActivity(), SensorEventListener {
                     var url = "http://ec2-52-211-114-128.eu-west-1.compute.amazonaws.com/sensorLog.php?pitch=${DeviceValues.getPitch()}" +
                             "&roll=${DeviceValues.getRoll()}&yaw=${DeviceValues.getYaw()}&" +
                             "X=${DeviceValues.getX()}&Y=${DeviceValues.getY()}&Z=${DeviceValues.getZ()}"
-                    VolleyRequest.makeHttpRequest(this.applicationContext, url)
+                    VolleyRequest.getInstance(this.applicationContext).makeHttpRequest(url)
                 }
             }
             else{
                 controlText.text = "Now Controlling Position";
                 if(abs(oldX-orientation[2])>0.1 || abs(oldY-orientation[1])>0.1) {
-                    DeviceValues.setPosition(orientation[2] * 1.1f, orientation[1] * 1.1f, 0.0f)
+                    DeviceValues.setPosition(orientation[1] * 1.1f, orientation[2] * 1.1f, 0.0f)
                     var url = "http://ec2-52-211-114-128.eu-west-1.compute.amazonaws.com/sensorLog.php?pitch=${DeviceValues.getPitch()}" +
                             "&roll=${DeviceValues.getRoll()}&yaw=${DeviceValues.getYaw()}&" +
                             "X=${DeviceValues.getX()}&Y=${DeviceValues.getY()}&Z=${DeviceValues.getZ()}"
-                    VolleyRequest.makeHttpRequest(this.applicationContext, url)
+                    VolleyRequest.getInstance(this.applicationContext).makeHttpRequest(url)
                 }
             }
         }

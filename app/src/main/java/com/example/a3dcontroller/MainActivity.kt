@@ -1,5 +1,6 @@
 package com.example.a3dcontroller
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,7 @@ import android.view.View
 
 class MainActivity : AppCompatActivity(){
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         super.onCreate(savedInstanceState)
@@ -17,7 +19,7 @@ class MainActivity : AppCompatActivity(){
         var url = "http://ec2-52-211-114-128.eu-west-1.compute.amazonaws.com/sensorLog.php?pitch=0" +
                 "&roll=0&yaw=0&" +
                 "X=0&Y=0&Z=0"
-        VolleyRequest.makeHttpRequest(this, url )
+        VolleyRequest.getInstance(this).makeHttpRequest(url)
     }
 
     fun startCalibration(view: View){

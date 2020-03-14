@@ -12,9 +12,9 @@ import kotlin.math.sqrt
         return sqrt(temp+temp2)
     }
 
-    fun getSlope(a: Coordinates, b: Coordinates):Float{
-        val temp = (b.yValue-a.yValue)
-        val temp2 = (b.xValue-a.xValue)
+    fun getSlope(x1: Float, y1: Float, x2: Float, y2: Float):Float{
+        val temp = (y2-y1)
+        val temp2 = (x2-x1)
         return temp/temp2
         Log.d("slope", "${temp/temp2}")
     }
@@ -23,18 +23,16 @@ import kotlin.math.sqrt
         return ((m*(nextX-a.xValue)) + a.yValue)
     }
 
-    fun getDeltaX(a: Coordinates, b: Coordinates): Float{
-        val x1 = a.xValue
-        val x2 = b.xValue
-
-        val temp = x2 - x1
+    fun getDelta(a: Float, b: Float): Float{
+        val temp = b - a
         return abs(temp/100)
     }
 
-    fun getPosition(route: Route, current: Int, percent: Int, deltaX: Float, slope: Float, direction: Int ):Coordinates{
+    fun getPosition(route: Route, current: Int, percent: Int, deltaX: Float, deltaZ: Float, slopeXY: Float, direction: Int ):Coordinates{
         val L = route[current]
         var nextXposition: Float
         var nextYposition: Float
+        var nextZposition: Float
 
         if(L==route[route.size()-1] && direction==1){
             return L
@@ -46,21 +44,24 @@ import kotlin.math.sqrt
             if (direction == 1) {
                 val nextPercent = percent + 1
                 nextXposition = L.xValue + (deltaX * nextPercent)
-                nextYposition = getY(L, nextXposition, slope)
+                nextYposition = getY(L, nextXposition, slopeXY)
+                nextZposition = L.zValue +(deltaZ * nextPercent)
             } else {
                 val nextPercent = percent - 1
                 nextXposition = L.xValue + (deltaX * nextPercent)
-                nextYposition = getY(L, nextXposition, slope)
+                nextYposition = getY(L, nextXposition, slopeXY)
+                nextZposition = L.zValue +(deltaZ * nextPercent)
 
-        }
 
-        return Coordinates(nextXposition, nextYposition)
+            }
+
+        return Coordinates(nextXposition, nextYposition, nextZposition)
 
     }
 
 }
 
-data class Coordinates( var xValue: Float,var yValue: Float){
+data class Coordinates( var xValue: Float,var yValue: Float, var zValue: Float){
 
 
 }
@@ -79,7 +80,7 @@ data class Route(var route: ArrayList<Coordinates>){
 
 
 fun main() {
-    val a = Coordinates(-1.0f, 2.0f)
+  /* val a = Coordinates(-1.0f, 2.0f)
     val b = Coordinates(1.0f, -2.0f)
 
     val list: ArrayList<Coordinates>? = arrayListOf()
@@ -98,7 +99,7 @@ fun main() {
     var nextY = temp.getY(currentPosition, nextX, m)
     println("X = $nextX, Y = $nextY")
 
-
+*/
 
 
 }

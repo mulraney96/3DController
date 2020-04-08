@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity(){
                 "&roll=0&yaw=0&" +
                 "X=0&Y=0&Z=0"
         VolleyRequest.getInstance(this).makeHttpRequest(url)
+        //reset text file
     }
 
     fun startCalibration(view: View){

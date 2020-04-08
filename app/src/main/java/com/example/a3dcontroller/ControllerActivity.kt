@@ -78,7 +78,7 @@ class ControllerActivity : AppCompatActivity(), SensorEventListener {
 
                 if(abs(oldPitch-orientation[1])>0.09 || abs(oldRoll-orientation[2])>0.09 || abs(oldYaw-orientation[0])>0.09 ){
                     Log.i("pitch difference", "${abs(oldPitch-orientation[1])}")
-                    DeviceValues.setOrientation(orientation[1], orientation[2], orientation[0])
+                    DeviceValues.setOrientation(orientation[1]*-1, orientation[2]*-1, orientation[0]*-1)
                     var url = "http://ec2-52-211-114-128.eu-west-1.compute.amazonaws.com/sensorLog.php?pitch=${DeviceValues.getPitch()}" +
                             "&roll=${DeviceValues.getRoll()}&yaw=${DeviceValues.getYaw()}&" +
                             "X=${DeviceValues.getX()}&Y=${DeviceValues.getY()}&Z=${DeviceValues.getZ()}"
@@ -88,7 +88,9 @@ class ControllerActivity : AppCompatActivity(), SensorEventListener {
             else{
                 controlText.text = "Now Controlling Position";
                 if(abs(oldX-orientation[2])>0.1 || abs(oldY-orientation[1])>0.1) {
-                    DeviceValues.setPosition(orientation[1] * 1.1f, orientation[2] * 1.1f, 0.0f)
+                    var X = DeviceValues.getX() + orientation[1] * 1.1f
+                    var Y = DeviceValues.getY() + orientation[2] * 1.1f
+                    DeviceValues.setPosition(X, Y, 0.0f)
                     var url = "http://ec2-52-211-114-128.eu-west-1.compute.amazonaws.com/sensorLog.php?pitch=${DeviceValues.getPitch()}" +
                             "&roll=${DeviceValues.getRoll()}&yaw=${DeviceValues.getYaw()}&" +
                             "X=${DeviceValues.getX()}&Y=${DeviceValues.getY()}&Z=${DeviceValues.getZ()}"

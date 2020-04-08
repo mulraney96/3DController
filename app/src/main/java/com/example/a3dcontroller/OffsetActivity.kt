@@ -1,5 +1,6 @@
 package com.example.a3dcontroller
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.hardware.Sensor
@@ -27,6 +28,7 @@ class OffsetActivity : AppCompatActivity(), SensorEventListener {
 
     private lateinit var sensorManager: SensorManager
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         super.onCreate(savedInstanceState)
